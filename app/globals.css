@@ -4,46 +4,46 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #080808;
-  --foreground: #ffffff;
-  --card: #111111;
-  --card-foreground: #ffffff;
-  --popover: #111111;
-  --popover-foreground: #ffffff;
-  --primary: #22c55e;
-  --primary-foreground: #080808;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #888888;
-  --muted: #1a1a1a;
-  --muted-foreground: #666666;
-  --accent: #22c55e;
-  --accent-foreground: #080808;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #0f172a;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #475569;
+  --muted: #f1f5f9;
+  --muted-foreground: #94a3b8;
+  --accent: #0f172a;
+  --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: #0f0f0f;
-  --ring: #22c55e;
-  --chart-1: oklch(0.7 0.18 200);
-  --chart-2: oklch(0.7 0.15 150);
-  --chart-3: oklch(0.7 0.18 280);
-  --chart-4: oklch(0.75 0.18 80);
-  --chart-5: oklch(0.65 0.2 350);
+  --border: rgba(15, 23, 42, 0.08);
+  --input: #f8fafc;
+  --ring: #0f172a;
+  --chart-1: oklch(0.5 0.18 200);
+  --chart-2: oklch(0.5 0.15 150);
+  --chart-3: oklch(0.5 0.18 280);
+  --chart-4: oklch(0.55 0.18 80);
+  --chart-5: oklch(0.5 0.2 350);
   --radius: 0.75rem;
-  --sidebar: oklch(0.11 0.005 270);
-  --sidebar-foreground: oklch(0.96 0 0);
-  --sidebar-primary: oklch(0.72 0.16 165);
-  --sidebar-primary-foreground: oklch(0.96 0 0);
-  --sidebar-accent: oklch(0.16 0.005 270);
-  --sidebar-accent-foreground: oklch(0.96 0 0);
-  --sidebar-border: oklch(0.2 0.01 270);
-  --sidebar-ring: oklch(0.72 0.16 165);
-  
-  /* Cron field colors */
-  --cron-minute: #3b82f6;
-  --cron-hour: #22c55e;
-  --cron-dom: #a855f7;
-  --cron-month: #f59e0b;
-  --cron-dow: #ec4899;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #0f172a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: rgba(15, 23, 42, 0.08);
+  --sidebar-ring: #0f172a;
+
+  /* Cron field colors — vivid on white */
+  --cron-minute: #2563eb;
+  --cron-hour: #16a34a;
+  --cron-dom: #9333ea;
+  --cron-month: #d97706;
+  --cron-dow: #db2777;
 }
 
 
