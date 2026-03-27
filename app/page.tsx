@@ -4,34 +4,39 @@ import { ArrowRight, Github, Twitter } from "lucide-react";
 const tools = [
   {
     name: "Cron Vision",
-    description: "Visualize any cron expression. See exactly when your job runs — heatmap, next runs, plain English translation.",
+    description: "Visualize any cron expression. See exactly when your job runs — next runs, plain English translation.",
     tags: ["#cron", "#scheduler", "#devops"],
     href: "/cronvis",
     live: true,
   },
   {
-    name: "Coming soon",
-    tags: ["#regex"],
+    name: "Regex Tester",
+    description: "Test and debug regular expressions in real time. Match highlighting, capture groups, and flags — all visible at a glance.",
+    tags: ["#regex", "#strings", "#testing"],
     live: false,
   },
   {
-    name: "Coming soon",
-    tags: ["#json"],
+    name: "JSON Formatter",
+    description: "Paste raw JSON and instantly get it formatted, validated, and syntax-highlighted. Minify or beautify in one click.",
+    tags: ["#json", "#formatter", "#api"],
     live: false,
   },
   {
-    name: "Coming soon",
-    tags: ["#jwt"],
+    name: "JWT Decoder",
+    description: "Decode any JWT token and inspect its header, payload, and signature. Expiry detection included.",
+    tags: ["#jwt", "#auth", "#security"],
     live: false,
   },
   {
-    name: "Coming soon",
-    tags: ["#sql"],
+    name: "SQL Formatter",
+    description: "Format messy SQL queries into clean, readable statements. Supports multiple dialects including PostgreSQL and MySQL.",
+    tags: ["#sql", "#database", "#queries"],
     live: false,
   },
   {
-    name: "Coming soon",
-    tags: ["#uuid"],
+    name: "UUID Generator",
+    description: "Generate cryptographically random UUIDs (v4) in bulk. Copy single or batch output instantly.",
+    tags: ["#uuid", "#random", "#ids"],
     live: false,
   },
 ];
@@ -111,24 +116,39 @@ export default function Home() {
 
       {/* Philosophy */}
       <section className="border-y border-white/[0.08] bg-[#0a0a0a] px-4 py-20 sm:px-6">
-        <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-3 md:gap-8">
-          <div className="text-center md:text-left">
-            <h3 className="mb-2 font-medium text-white">No login</h3>
-            <p className="text-sm text-[#666]">
-              Use any tool instantly. No accounts, no email, no friction.
-            </p>
-          </div>
-          <div className="border-t border-white/[0.08] pt-8 text-center md:border-l md:border-t-0 md:pl-8 md:pt-0 md:text-left">
-            <h3 className="mb-2 font-medium text-white">No bloat</h3>
-            <p className="text-sm text-[#666]">
-              Every tool does one thing. Nothing more.
-            </p>
-          </div>
-          <div className="border-t border-white/[0.08] pt-8 text-center md:border-l md:border-t-0 md:pl-8 md:pt-0 md:text-left">
-            <h3 className="mb-2 font-medium text-white">No cost</h3>
-            <p className="text-sm text-[#666]">
-              Free forever. Always.
-            </p>
+        <div className="mx-auto max-w-5xl">
+          <p className="mb-12 text-center text-xs font-medium uppercase tracking-widest text-[#555]">Why 404tools</p>
+          <div className="grid gap-px md:grid-cols-3">
+            {[
+              {
+                no: "No login",
+                body: "Use any tool instantly. No accounts, no email, no friction.",
+                detail: "Open a tool. Use it. Leave. That's how it should work.",
+              },
+              {
+                no: "No bloat",
+                body: "Every tool does one thing. Nothing more.",
+                detail: "No dashboards. No settings panels. No upgrade prompts.",
+              },
+              {
+                no: "No cost",
+                body: "Free forever. Always.",
+                detail: "No freemium. No trial period. No credit card required.",
+              },
+            ].map(({ no, body, detail }) => (
+              <div
+                key={no}
+                className="group relative overflow-hidden rounded-none border-0 bg-transparent px-8 py-10 md:px-10 md:first:pl-0 md:last:pr-0"
+              >
+                {/* Vertical divider for md+ */}
+                <div className="absolute inset-y-0 right-0 hidden w-px bg-white/[0.06] md:block last:hidden" />
+                {/* Green accent bar */}
+                <div className="mb-6 h-px w-8 bg-[#22c55e]" />
+                <h3 className="mb-1 text-lg font-semibold text-white">{no}</h3>
+                <p className="mb-3 text-sm font-medium text-[#aaa]">{body}</p>
+                <p className="text-xs leading-relaxed text-[#555]">{detail}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -178,8 +198,13 @@ interface Tool {
 function ToolCard({ tool }: { tool: Tool }) {
   if (!tool.live) {
     return (
-      <div className="rounded-xl border border-white/[0.05] bg-[#111111]/50 p-5 opacity-50">
-        <p className="mb-3 text-lg font-medium text-[#555]">{tool.name}</p>
+      <div className="rounded-xl border border-white/[0.05] bg-[#111111]/50 p-5 opacity-60">
+        <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-2 py-0.5 text-xs text-[#555]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#555]" />
+          Coming soon
+        </div>
+        <h3 className="mb-2 text-lg font-medium text-[#777]">{tool.name}</h3>
+        <p className="mb-4 text-sm leading-relaxed text-[#555]">{tool.description}</p>
         <div className="flex flex-wrap gap-2">
           {tool.tags.map((tag) => (
             <span
