@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Cron Vision - Cron Expression Visualizer',
-  description: 'Paste any cron expression to visualize it. See human-readable descriptions, next run times, and weekly heatmaps.',
+  title: '404tools.dev - Developer tools, all in one place',
+  description: 'A growing collection of fast, focused developer utilities. No bloat, no accounts, just tools.',
   generator: 'v0.app',
   icons: {
     icon: [

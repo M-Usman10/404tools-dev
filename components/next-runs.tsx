@@ -9,35 +9,31 @@ interface NextRunsProps {
   isValid: boolean;
 }
 
-// Format a Date object into day and time strings
-
-function formatDate(date: Date): { day: string; time: string } {
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-  ];
-
-  const dayName = days[date.getDay()];
-  const monthName = months[date.getMonth()];
-  const dayNum = date.getDate();
-
-  let hours = date.getHours();
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12 || 12;
-
-  return {
-    day: `${dayName}, ${monthName} ${dayNum}`,
-    time: `${hours}:${minutes} ${ampm}`,
-  };
-}
+const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function NextRuns({ runs, isValid }: NextRunsProps) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const showRuns = mounted && isValid && runs.length > 0;
+
+  const getFormattedDate = (date: Date) => {
+    const dayName = DAY_NAMES[date.getDay()];
+    const monthName = MONTH_NAMES[date.getMonth()];
+    const dayNum = date.getDate();
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    return {
+      day: `${dayName}, ${monthName} ${dayNum}`,
+      time: `${hours}:${minutes} ${ampm}`,
+    };
+  };
 
   return (
     <div className="rounded-xl border border-border bg-card px-5 py-4">
@@ -51,7 +47,7 @@ export function NextRuns({ runs, isValid }: NextRunsProps) {
       {showRuns ? (
         <div className="space-y-1.5">
           {runs.map((run, index) => {
-            const { day, time } = formatDate(run);
+            const { day, time } = getFormattedDate(run);
             const isNext = index === 0;
             return (
               <div
@@ -63,25 +59,31 @@ export function NextRuns({ runs, isValid }: NextRunsProps) {
                     : "bg-secondary/50 hover:bg-secondary"
                 )}
               >
-                <div className={cn(
-                  "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold",
-                  isNext
-                    ? "bg-accent text-accent-foreground"
-                    : "bg-muted text-muted-foreground"
-                )}>
+                <div
+                  className={cn(
+                    "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold",
+                    isNext
+                      ? "bg-accent text-accent-foreground"
+                      : "bg-muted text-muted-foreground"
+                  )}
+                >
                   {index + 1}
                 </div>
                 <div className="flex flex-1 items-center justify-between gap-2">
-                  <span className={cn(
-                    "text-sm font-medium",
-                    isNext ? "text-foreground" : "text-secondary-foreground"
-                  )}>
+                  <span
+                    className={cn(
+                      "text-sm font-medium",
+                      isNext ? "text-foreground" : "text-secondary-foreground"
+                    )}
+                  >
                     {day}
                   </span>
-                  <span className={cn(
-                    "font-mono text-sm tabular-nums",
-                    isNext ? "text-accent" : "text-muted-foreground"
-                  )}>
+                  <span
+                    className={cn(
+                      "font-mono text-sm tabular-nums",
+                      isNext ? "text-accent" : "text-muted-foreground"
+                    )}
+                  >
                     {time}
                   </span>
                 </div>
