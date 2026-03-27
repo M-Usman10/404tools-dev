@@ -104,34 +104,154 @@ export function getWeeklyHeatmap(expr: string): boolean[][] {
 }
 
 // Step 6: Generate human-readable description
-// Map common patterns to plain English
 export function describeExpression(expr: string): string {
-  const e = expr.trim();
-  const patterns: Record<string, string> = {
-    '* * * * *': 'At every minute.',
-    '0 * * * *': 'At minute 0 of every hour.',
-    '0 0 * * *': 'At midnight every day.',
-    '*/5 * * * *': 'Every 5 minutes.',
-    '*/15 * * * *': 'Every 15 minutes.',
-    '*/30 * * * *': 'Every 30 minutes.',
-    '0 9 * * 1-5': 'At 9:00 AM, Monday through Friday.',
-    '0 9 * * 1': 'At 9:00 AM, every Monday.',
-    '0 0 * * 0': 'At midnight, every Sunday.',
-    '0 0 1 * *': 'At midnight, on the 1st of every month.',
-  };
-  if (patterns[e]) return patterns[e];
-  // Fallback: build from parsed fields
   try {
-    const { minute, hour, dom, month, dow } = parseCron(e);
+    const { minute, hour, dom, month, dow } = parseCron(expr);
+
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    // Helper to format time
+    const formatTime = (h: number, m: number): string => {
+      const period = h >= 12 ? "PM" : "AM";
+      const hour12 = h % 12 || 12;
+      const minStr = m.toString().padStart(2, "0");
+      return `${hour12}:${minStr} ${period}`;
+    };
+
+    // Helper to get ordinal suffix
+    const ordinal = (n: number): string => {
+      const s = ["th", "st", "nd", "rd"];
+      const v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    };
+
+    // Helper to describe a field value
+    const describeFieldValues = (vals: Set<number>, names?: string[]): string => {
+      const arr = Array.from(vals).sort((a, b) => a - b);
+      if (names) {
+        return arr.map(v => names[v]).join(", ");
+      }
+      return arr.join(", ");
+    };
+
+    // Helper to detect if field is a step pattern
+    const isStep = (field: string): { step: number; base: number } | null => {
+      if (field.startsWith("*/")) {
+        return { step: parseInt(field.slice(2)), base: 0 };
+      }
+      return null;
+    };
+
+    // Helper to detect if field is a range
+    const isRange = (field: string): { start: number; end: number } | null => {
+      if (field.includes("-") && !field.includes(",") && !field.includes("/")) {
+        const [s, e] = field.split("-").map(Number);
+        return { start: s, end: e };
+      }
+      return null;
+    };
+
+    // Parse values for each field
+    const minutes = parseField(minute, 0, 59);
+    const hours = parseField(hour, 0, 23);
+    const doms = parseField(dom, 1, 31);
+    const months = parseField(month, 1, 12);
+    const dows = parseField(dow, 0, 6);
+
     const parts: string[] = [];
-    if (minute === '*' && hour === '*') parts.push('every minute');
-    else if (minute.startsWith('*/')) parts.push(`every ${minute.slice(2)} minutes`);
-    else parts.push(`at ${hour}:${minute.toString().padStart(2, '0')}`);
-    if (dow !== '*') parts.push(`on day-of-week ${dow}`);
-    if (dom !== '*') parts.push(`on day ${dom} of the month`);
-    if (month !== '*') parts.push(`in month ${month}`);
-    return parts.join(', ') + '.';
+
+    // TIME DESCRIPTION
+    const minStep = isStep(minute);
+    const hourStep = isStep(hour);
+
+    if (minute === "*" && hour === "*") {
+      parts.push("Every minute");
+    } else if (minStep && hour === "*") {
+      if (minStep.step === 1) {
+        parts.push("Every minute");
+      } else {
+        parts.push(`Every ${minStep.step} minutes`);
+      }
+    } else if (minute === "0" && hourStep) {
+      if (hourStep.step === 1) {
+        parts.push("Every hour");
+      } else {
+        parts.push(`Every ${hourStep.step} hours`);
+      }
+    } else if (minute === "0" && hour === "*") {
+      parts.push("Every hour, at minute 0");
+    } else if (minutes.size === 1 && hours.size === 1) {
+      const h = Array.from(hours)[0];
+      const m = Array.from(minutes)[0];
+      parts.push(`At ${formatTime(h, m)}`);
+    } else if (minutes.size === 1 && hours.size > 1) {
+      const m = Array.from(minutes)[0];
+      const hourList = Array.from(hours).map(h => formatTime(h, m)).join(", ");
+      parts.push(`At ${hourList}`);
+    } else if (minutes.size > 1 && hours.size === 1) {
+      const h = Array.from(hours)[0];
+      const minList = Array.from(minutes).map(m => formatTime(h, m)).join(", ");
+      parts.push(`At ${minList}`);
+    } else {
+      // Complex time pattern
+      const minDesc = minute === "*" ? "every minute" : `minute ${describeFieldValues(minutes)}`;
+      const hourDesc = hour === "*" ? "every hour" : `hour ${describeFieldValues(hours)}`;
+      parts.push(`At ${minDesc} past ${hourDesc}`);
+    }
+
+    // DAY OF WEEK DESCRIPTION
+    const dowRange = isRange(dow);
+    if (dow !== "*") {
+      if (dowRange) {
+        parts.push(`${dayNames[dowRange.start]} through ${dayNames[dowRange.end]}`);
+      } else if (dows.size === 1) {
+        parts.push(`on ${dayNames[Array.from(dows)[0]]}`);
+      } else if (dows.size === 5 && !dows.has(0) && !dows.has(6)) {
+        parts.push("on weekdays");
+      } else if (dows.size === 2 && dows.has(0) && dows.has(6)) {
+        parts.push("on weekends");
+      } else {
+        parts.push(`on ${describeFieldValues(dows, dayNames)}`);
+      }
+    }
+
+    // DAY OF MONTH DESCRIPTION
+    if (dom !== "*") {
+      if (doms.size === 1) {
+        parts.push(`on the ${ordinal(Array.from(doms)[0])}`);
+      } else {
+        const domList = Array.from(doms).map(d => ordinal(d)).join(", ");
+        parts.push(`on the ${domList}`);
+      }
+    }
+
+    // MONTH DESCRIPTION
+    if (month !== "*") {
+      if (months.size === 1) {
+        parts.push(`in ${monthNames[Array.from(months)[0] - 1]}`);
+      } else {
+        const monthList = Array.from(months).map(m => monthNames[m - 1]).join(", ");
+        parts.push(`in ${monthList}`);
+      }
+    }
+
+    // Join parts naturally
+    let result = parts[0];
+    for (let i = 1; i < parts.length; i++) {
+      const part = parts[i];
+      // If part starts with "on" or "in", add comma
+      if (part.startsWith("on ") || part.startsWith("in ")) {
+        result += ", " + part;
+      } else {
+        result += ", " + part;
+      }
+    }
+
+    return result + ".";
   } catch {
-    return 'Invalid expression.';
+    return "Invalid expression.";
   }
 }
+
+

@@ -9,6 +9,8 @@ interface NextRunsProps {
   isValid: boolean;
 }
 
+// Format a Date object into day and time strings
+
 function formatDate(date: Date): { day: string; time: string } {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = [
