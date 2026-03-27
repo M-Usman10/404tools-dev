@@ -196,58 +196,43 @@ interface Tool {
 }
 
 function ToolCard({ tool }: { tool: Tool }) {
-  if (!tool.live) {
-    return (
-      <div className="rounded-xl border border-white/[0.05] bg-[#111111]/50 p-5 opacity-60">
-        <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/[0.04] px-2 py-0.5 text-xs text-[#555]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#555]" />
+  const inner = (
+    <div className="flex h-40 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-[#111111] p-5 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-white/20">
+      {tool.live ? (
+        <div className="mb-2.5 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#22c55e]/10 px-2 py-0.5 text-xs text-[#22c55e]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
+          Live
+        </div>
+      ) : (
+        <div className="mb-2.5 inline-flex w-fit items-center gap-1.5 rounded-full bg-white/[0.06] px-2 py-0.5 text-xs text-[#666]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#666]" />
           Coming soon
         </div>
-        <h3 className="mb-2 text-lg font-medium text-[#777]">{tool.name}</h3>
-        <p className="mb-4 text-sm leading-relaxed text-[#555]">{tool.description}</p>
-        <div className="flex flex-wrap gap-2">
+      )}
+
+      <h3 className="mb-1 text-sm font-medium text-white">{tool.name}</h3>
+      <p className="mb-auto line-clamp-2 text-xs leading-relaxed text-[#666]">{tool.description}</p>
+
+      <div className="mt-3 flex items-center justify-between">
+        <div className="flex flex-wrap gap-1.5">
           {tool.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-md bg-white/[0.03] px-2 py-0.5 text-xs text-[#444]"
-            >
+            <span key={tag} className="rounded-md bg-white/[0.05] px-1.5 py-0.5 text-[10px] text-[#555]">
               {tag}
             </span>
           ))}
         </div>
+        {tool.live && (
+          <span className="flex shrink-0 items-center gap-1 text-xs text-[#22c55e] opacity-0 transition-opacity group-hover:opacity-100">
+            Open <ArrowRight className="h-3 w-3" />
+          </span>
+        )}
       </div>
-    );
+    </div>
+  );
+
+  if (tool.live) {
+    return <Link href={tool.href || "#"} className="group">{inner}</Link>;
   }
 
-  return (
-    <Link
-      href={tool.href || "#"}
-      className="group relative rounded-xl border border-white/[0.08] bg-[#111111] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20"
-    >
-      <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-[#22c55e]/10 px-2 py-0.5 text-xs text-[#22c55e]">
-        <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
-        Live
-      </div>
-      <h3 className="mb-2 text-lg font-medium text-white">{tool.name}</h3>
-      <p className="mb-4 text-sm leading-relaxed text-[#888]">
-        {tool.description}
-      </p>
-      <div className="flex items-center justify-between">
-        <div className="flex flex-wrap gap-2">
-          {tool.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-md bg-white/[0.05] px-2 py-0.5 text-xs text-[#666]"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        <span className="flex items-center gap-1 text-sm text-[#22c55e] opacity-0 transition-opacity group-hover:opacity-100">
-          Open tool
-          <ArrowRight className="h-3.5 w-3.5" />
-        </span>
-      </div>
-    </Link>
-  );
+  return <div className="group cursor-default">{inner}</div>;
 }
