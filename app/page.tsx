@@ -10,6 +10,13 @@ const tools = [
     live: true,
   },
   {
+    name: "Confusion Matrix",
+    description: "Evaluate ML models instantly. Paste predictions and ground truth to see accuracy, precision, recall, F1, and ROC curves.",
+    tags: ["#ml", "#metrics", "#evaluation"],
+    href: "/confusion-matrix",
+    live: true,
+  },
+  {
     name: "Regex Tester",
     description: "Test and debug regular expressions in real time. Match highlighting, capture groups, and flags — all visible at a glance.",
     tags: ["#regex", "#strings", "#testing"],
@@ -95,7 +102,7 @@ export default function Home() {
             </a>
           </div>
           <p className="mt-8 text-sm text-[#555]">
-            1 tool live · More shipping rapidly
+            2 tools live · More shipping rapidly
           </p>
         </div>
       </section>
