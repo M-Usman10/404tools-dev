@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { CronInput } from "@/components/cron-input";
 import { HumanReadable } from "@/components/human-readable";
 import { NextRuns } from "@/components/next-runs";
@@ -16,13 +16,20 @@ import {
 
 export default function CronVision() {
   const [expression, setExpression] = useState("* * * * *");
+  const [mounted, setMounted] = useState(false);
+
+  // Only run time-dependent calculations on the client to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { isValid, error, parsed, description, nextRuns, heatmap } =
     useMemo(() => {
       try {
         const parsed = parseCron(expression);
         const description = describeExpression(expression);
-        const nextRuns = getNextRuns(expression, 5);
+        // Only calculate time-dependent values after mount to avoid hydration issues
+        const nextRuns = mounted ? getNextRuns(expression, 5) : [];
         const heatmap = getWeeklyHeatmap(expression);
         return { isValid: true, error: null, parsed, description, nextRuns, heatmap };
       } catch (e) {
@@ -35,23 +42,30 @@ export default function CronVision() {
           heatmap: Array.from({ length: 7 }, () => Array(24).fill(false)),
         };
       }
-    }, [expression]);
+    }, [expression, mounted]);
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      {/* Subtle gradient overlay */}
+      <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-accent/[0.02] via-transparent to-transparent" />
+      
+      <div className="relative mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         {/* Header */}
-        <header className="mb-12 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <header className="mb-16 text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur-sm">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-accent" />
+            <span>Developer Tool</span>
+          </div>
+          <h1 className="text-balance bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
             Cron Vision
           </h1>
-          <p className="mt-3 text-lg text-muted-foreground">
+          <p className="mt-4 text-pretty text-lg text-muted-foreground sm:text-xl">
             Paste any cron expression to visualize it.
           </p>
         </header>
 
         {/* Input Section */}
-        <section className="mb-10">
+        <section className="mb-12">
           <CronInput
             value={expression}
             onChange={setExpression}
@@ -62,22 +76,25 @@ export default function CronVision() {
         </section>
 
         {/* Human Readable */}
-        <section className="mb-10">
+        <section className="mb-8">
           <HumanReadable description={description} isValid={isValid} />
         </section>
 
-        {/* Next 5 Run Times */}
-        <section className="mb-10">
-          <NextRuns runs={nextRuns} isValid={isValid} />
-        </section>
+        {/* Two column layout for runs and heatmap */}
+        <div className="mb-8 grid gap-8 lg:grid-cols-2">
+          {/* Next 5 Run Times */}
+          <section>
+            <NextRuns runs={nextRuns} isValid={isValid} />
+          </section>
 
-        {/* Weekly Heatmap */}
-        <section className="mb-10">
-          <WeeklyHeatmap heatmap={heatmap} isValid={isValid} />
-        </section>
+          {/* Weekly Heatmap */}
+          <section>
+            <WeeklyHeatmap heatmap={heatmap} isValid={isValid} />
+          </section>
+        </div>
 
         {/* Quick Examples */}
-        <section className="mb-10">
+        <section className="mb-8">
           <QuickExamples onSelect={setExpression} current={expression} />
         </section>
 
@@ -85,6 +102,11 @@ export default function CronVision() {
         <section>
           <FieldReference />
         </section>
+
+        {/* Footer */}
+        <footer className="mt-16 text-center text-sm text-muted-foreground">
+          <p>Built for developers who work with scheduled tasks.</p>
+        </footer>
       </div>
     </main>
   );

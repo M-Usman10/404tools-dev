@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Zap } from "lucide-react";
 
 interface QuickExamplesProps {
   onSelect: (expression: string) => void;
@@ -19,11 +20,15 @@ const EXAMPLES = [
 
 export function QuickExamples({ onSelect, current }: QuickExamplesProps) {
   return (
-    <div className="rounded-lg border border-border bg-card p-6">
-      <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-        Quick Examples
-      </h2>
-      <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:overflow-x-auto sm:pb-2">
+    <div className="rounded-xl border border-border bg-card p-6">
+      <div className="mb-5 flex items-center gap-2 text-muted-foreground">
+        <Zap className="h-4 w-4" />
+        <h2 className="text-xs font-semibold uppercase tracking-widest">
+          Quick Examples
+        </h2>
+      </div>
+      
+      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none sm:flex-wrap sm:overflow-visible sm:pb-0">
         {EXAMPLES.map((example) => {
           const isActive = current.trim() === example.expr;
           return (
@@ -31,14 +36,28 @@ export function QuickExamples({ onSelect, current }: QuickExamplesProps) {
               key={example.expr}
               onClick={() => onSelect(example.expr)}
               className={cn(
-                "shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                "group relative shrink-0 overflow-hidden rounded-lg border px-4 py-3 text-left transition-all duration-200",
                 isActive
-                  ? "border-accent bg-accent/20 text-accent"
-                  : "border-border bg-secondary text-secondary-foreground hover:border-accent/50 hover:bg-accent/10"
+                  ? "border-accent/50 bg-accent/10 ring-1 ring-accent/20"
+                  : "border-border bg-secondary/30 hover:border-border hover:bg-secondary/60"
               )}
             >
-              <span className="block">{example.label}</span>
-              <span className="block font-mono text-xs text-muted-foreground">
+              {/* Subtle gradient on hover */}
+              <div className={cn(
+                "pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/[0.05] to-transparent opacity-0 transition-opacity",
+                isActive ? "opacity-100" : "group-hover:opacity-100"
+              )} />
+              
+              <span className={cn(
+                "relative block text-sm font-medium",
+                isActive ? "text-accent" : "text-foreground"
+              )}>
+                {example.label}
+              </span>
+              <span className={cn(
+                "relative mt-1 block font-mono text-xs",
+                isActive ? "text-accent/70" : "text-muted-foreground"
+              )}>
                 {example.expr}
               </span>
             </button>
