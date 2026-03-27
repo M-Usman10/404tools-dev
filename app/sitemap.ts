@@ -6,13 +6,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: new Date('2025-03-27'),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: `${baseUrl}/cronvis`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-03-27'),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
