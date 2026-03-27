@@ -161,45 +161,18 @@ export function describeExpression(expr: string): string {
 
     const parts: string[] = [];
 
-    // Helper to format hour for display
-    const formatHour = (h: number): string => {
-      const period = h >= 12 ? "PM" : "AM";
-      const hour12 = h % 12 || 12;
-      return `${hour12} ${period}`;
-    };
-
     // TIME DESCRIPTION
     const minStep = isStep(minute);
     const hourStep = isStep(hour);
 
     if (minute === "*" && hour === "*") {
       parts.push("Every minute");
-    } else if (minute === "*" && hours.size === 1) {
-      // Every minute during a specific hour: * 5 * * *
-      const h = Array.from(hours)[0];
-      parts.push(`Every minute past ${formatHour(h)}`);
-    } else if (minute === "*" && hours.size > 1 && hours.size <= 4) {
-      // Every minute during specific hours: * 5,6,7 * * *
-      const hourList = Array.from(hours).map(h => formatHour(h)).join(", ");
-      parts.push(`Every minute past ${hourList}`);
-    } else if (minute === "*") {
-      // Every minute during many hours
-      const hourDesc = hourStep ? `every ${hourStep.step} hours` : `hours ${describeFieldValues(hours)}`;
-      parts.push(`Every minute, ${hourDesc}`);
     } else if (minStep && hour === "*") {
       if (minStep.step === 1) {
         parts.push("Every minute");
       } else {
         parts.push(`Every ${minStep.step} minutes`);
       }
-    } else if (minStep && hours.size === 1) {
-      // Every N minutes during a specific hour: */5 9 * * *
-      const h = Array.from(hours)[0];
-      parts.push(`Every ${minStep.step} minutes past ${formatHour(h)}`);
-    } else if (minStep && hours.size > 1) {
-      // Every N minutes during specific hours
-      const hourList = Array.from(hours).map(h => formatHour(h)).join(", ");
-      parts.push(`Every ${minStep.step} minutes past ${hourList}`);
     } else if (minute === "0" && hourStep) {
       if (hourStep.step === 1) {
         parts.push("Every hour");
@@ -207,41 +180,23 @@ export function describeExpression(expr: string): string {
         parts.push(`Every ${hourStep.step} hours`);
       }
     } else if (minute === "0" && hour === "*") {
-      parts.push("At the start of every hour");
+      parts.push("Every hour, at minute 0");
     } else if (minutes.size === 1 && hours.size === 1) {
       const h = Array.from(hours)[0];
       const m = Array.from(minutes)[0];
       parts.push(`At ${formatTime(h, m)}`);
-    } else if (minutes.size === 1 && hours.size > 1 && hours.size <= 6) {
-      // Specific minute across multiple hours (reasonable count)
+    } else if (minutes.size === 1 && hours.size > 1) {
       const m = Array.from(minutes)[0];
       const hourList = Array.from(hours).map(h => formatTime(h, m)).join(", ");
       parts.push(`At ${hourList}`);
-    } else if (minutes.size === 1 && hours.size > 6) {
-      // Specific minute across many hours
-      const m = Array.from(minutes)[0];
-      const hourDesc = hourStep ? `every ${hourStep.step} hours` : `${hours.size} hours`;
-      parts.push(`At minute ${m} past ${hourDesc}`);
-    } else if (minutes.size > 1 && minutes.size <= 4 && hours.size === 1) {
-      // A few specific minutes during one hour
+    } else if (minutes.size > 1 && hours.size === 1) {
       const h = Array.from(hours)[0];
       const minList = Array.from(minutes).map(m => formatTime(h, m)).join(", ");
       parts.push(`At ${minList}`);
-    } else if (minutes.size > 4 && hours.size === 1) {
-      // Many minutes during one hour
-      const h = Array.from(hours)[0];
-      const minDesc = minStep ? `every ${minStep.step} minutes` : `${minutes.size} times`;
-      parts.push(`${minDesc} past ${formatHour(h)}`);
     } else {
-      // Complex time pattern - keep it simple
-      const minDesc = minute === "*" ? "every minute" : 
-                      minStep ? `every ${minStep.step} minutes` : 
-                      minutes.size <= 3 ? `minute ${describeFieldValues(minutes)}` : 
-                      `${minutes.size} minutes`;
-      const hourDesc = hour === "*" ? "every hour" : 
-                       hourStep ? `every ${hourStep.step} hours` :
-                       hours.size <= 3 ? `${Array.from(hours).map(h => formatHour(h)).join(", ")}` :
-                       `${hours.size} hours`;
+      // Complex time pattern
+      const minDesc = minute === "*" ? "every minute" : `minute ${describeFieldValues(minutes)}`;
+      const hourDesc = hour === "*" ? "every hour" : `hour ${describeFieldValues(hours)}`;
       parts.push(`At ${minDesc} past ${hourDesc}`);
     }
 

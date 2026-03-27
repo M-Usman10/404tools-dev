@@ -9,6 +9,8 @@ interface NextRunsProps {
   isValid: boolean;
 }
 
+// Format a Date object into day and time strings
+
 function formatDate(date: Date): { day: string; time: string } {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = [
@@ -33,10 +35,7 @@ function formatDate(date: Date): { day: string; time: string } {
 
 export function NextRuns({ runs, isValid }: NextRunsProps) {
   const [mounted, setMounted] = useState(false);
-  
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   const showRuns = mounted && isValid && runs.length > 0;
 
@@ -64,31 +63,25 @@ export function NextRuns({ runs, isValid }: NextRunsProps) {
                     : "bg-secondary/50 hover:bg-secondary"
                 )}
               >
-                <div
-                  className={cn(
-                    "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold",
-                    isNext
-                      ? "bg-accent text-accent-foreground"
-                      : "bg-muted text-muted-foreground"
-                  )}
-                >
+                <div className={cn(
+                  "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold",
+                  isNext
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-muted text-muted-foreground"
+                )}>
                   {index + 1}
                 </div>
                 <div className="flex flex-1 items-center justify-between gap-2">
-                  <span
-                    className={cn(
-                      "text-sm font-medium",
-                      isNext ? "text-foreground" : "text-secondary-foreground"
-                    )}
-                  >
+                  <span className={cn(
+                    "text-sm font-medium",
+                    isNext ? "text-foreground" : "text-secondary-foreground"
+                  )}>
                     {day}
                   </span>
-                  <span
-                    className={cn(
-                      "font-mono text-sm tabular-nums",
-                      isNext ? "text-accent" : "text-muted-foreground"
-                    )}
-                  >
+                  <span className={cn(
+                    "font-mono text-sm tabular-nums",
+                    isNext ? "text-accent" : "text-muted-foreground"
+                  )}>
                     {time}
                   </span>
                 </div>
@@ -102,8 +95,8 @@ export function NextRuns({ runs, isValid }: NextRunsProps) {
             {!mounted
               ? "Loading run times..."
               : isValid
-                ? "No upcoming runs found."
-                : "Enter a valid expression to see run times."}
+              ? "No upcoming runs found."
+              : "Enter a valid expression to see run times."}
           </p>
         </div>
       )}
