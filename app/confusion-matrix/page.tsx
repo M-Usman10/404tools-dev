@@ -11,8 +11,6 @@ import {
   macroAvg,
   weightedAvg,
   accuracy,
-  rocCurve,
-  auc,
   detectClassType,
 } from "@/lib/confusion-matrix";
 
@@ -46,11 +44,6 @@ export default function ConfusionMatrixAnalyzer() {
     const acc = accuracy(matrix);
     const classType = detectClassType(classes);
 
-    // ROC curve (for binary, use the positive class)
-    const posClass = classes.includes("1") ? "1" : classes[classes.length - 1];
-    const roc = rocCurve(gtLabels, predLabels, posClass);
-    const aucScore = auc(roc);
-
     return {
       classes,
       matrix,
@@ -59,9 +52,6 @@ export default function ConfusionMatrixAnalyzer() {
       weighted,
       accuracy: acc,
       classType,
-      roc,
-      auc: aucScore,
-      posClass,
     };
   }, [groundTruth, predictions, analyzed]);
 
@@ -267,65 +257,7 @@ export default function ConfusionMatrixAnalyzer() {
               </div>
             </section>
 
-            {/* Section 4: ROC Curve */}
-            <section className="mb-8">
-              <h2 className="mb-4 text-xs font-medium uppercase tracking-widest text-[#555]">
-                ROC Curve
-              </h2>
-              <div className="rounded-xl border border-white/[0.08] bg-[#111] p-4">
-                <div className="relative aspect-square max-h-64 w-full">
-                  <svg viewBox="0 0 100 100" className="h-full w-full">
-                    {/* Grid */}
-                    <defs>
-                      <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
-                      </pattern>
-                    </defs>
-                    <rect width="100" height="100" fill="url(#grid)" />
-
-                    {/* Diagonal baseline */}
-                    <line x1="0" y1="100" x2="100" y2="0" stroke="#444" strokeWidth="0.5" strokeDasharray="2,2" />
-
-                    {/* ROC curve */}
-                    <polyline
-                      points={data.roc.map((p) => `${p.fpr * 100},${100 - p.tpr * 100}`).join(" ")}
-                      fill="none"
-                      stroke="#22c55e"
-                      strokeWidth="2"
-                    />
-
-                    {/* Points */}
-                    {data.roc.map((p, i) => (
-                      <circle
-                        key={i}
-                        cx={p.fpr * 100}
-                        cy={100 - p.tpr * 100}
-                        r="2"
-                        fill="#22c55e"
-                      />
-                    ))}
-
-                    {/* Axes labels */}
-                    <text x="50" y="98" textAnchor="middle" fill="#666" fontSize="4">
-                      False Positive Rate
-                    </text>
-                    <text x="2" y="50" textAnchor="middle" fill="#666" fontSize="4" transform="rotate(-90, 2, 50)">
-                      True Positive Rate
-                    </text>
-                  </svg>
-
-                  {/* AUC label */}
-                  <div className="absolute left-4 top-4 rounded-md bg-[#080808]/80 px-2 py-1 text-xs text-white">
-                    AUC = <span className="font-mono font-semibold text-[#22c55e]">{data.auc.toFixed(2)}</span>
-                  </div>
-                </div>
-                <p className="mt-4 text-center text-xs text-[#555]">
-                  ROC curve requires probability scores. Showing a step approximation based on hard labels.
-                </p>
-              </div>
-            </section>
-
-            {/* Section 5: Per-class breakdown table */}
+            {/* Section 4: Per-class breakdown table */}
             <section className="mb-8">
               <h2 className="mb-4 text-xs font-medium uppercase tracking-widest text-[#555]">
                 Per-Class Breakdown
