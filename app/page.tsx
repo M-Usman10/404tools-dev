@@ -47,7 +47,7 @@ export default function Home() {
             <span className="font-medium">404tools.dev</span>
           </Link>
           <a
-            href="https://github.com"
+            href="https://github.com/M-Usman10/404tools"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-md border border-white/[0.12] px-3 py-1.5 text-sm text-[#888] transition-colors hover:border-white/20 hover:text-white"
@@ -80,7 +80,7 @@ export default function Home() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
-              href="https://github.com"
+              href="https://github.com/M-Usman10/404tools"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-md border border-white/[0.12] px-5 py-2.5 text-sm font-medium text-[#888] transition-colors hover:border-white/20 hover:text-white"
@@ -153,7 +153,7 @@ export default function Home() {
               <Twitter className="h-5 w-5" />
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/M-Usman10/404tools"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#555] transition-colors hover:text-white"
