@@ -28,12 +28,7 @@ const tools = [
     tags: ["#json", "#formatter", "#api"],
     live: false,
   },
-  {
-    name: "JWT Decoder",
-    description: "Decode any JWT token and inspect its header, payload, and signature. Expiry detection included.",
-    tags: ["#jwt", "#auth", "#security"],
-    live: false,
-  },
+
   {
     name: "SQL Formatter",
     description: "Format messy SQL queries into clean, readable statements. Supports multiple dialects including PostgreSQL and MySQL.",
