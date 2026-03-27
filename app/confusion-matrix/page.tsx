@@ -187,12 +187,16 @@ export default function ConfusionMatrixAnalyzer() {
                   {/* Header row */}
                   <div className="mb-2 flex items-center gap-1">
                     <div className="h-10 w-16 shrink-0" />
-                    <div className="flex-1 text-center text-xs font-medium uppercase tracking-widest text-[#666]">
-                      Predicted
+                    <div className="w-14 shrink-0" />
+                    <div className="flex flex-1 justify-center">
+                      <span className="text-xs font-medium uppercase tracking-widest text-[#666]">
+                        Predicted
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
                     <div className="h-10 w-16 shrink-0" />
+                    <div className="w-14 shrink-0" />
                     {data.classes.map((cls) => (
                       <div
                         key={`h-${cls}`}
@@ -213,7 +217,7 @@ export default function ConfusionMatrixAnalyzer() {
                     <div className="flex flex-col gap-1">
                       {data.matrix.map((row, i) => (
                         <div key={i} className="flex items-center gap-1">
-                          <div className="flex h-14 w-14 items-center justify-center text-xs font-medium text-[#888]">
+                          <div className="flex h-14 w-14 shrink-0 items-center justify-center text-xs font-medium text-[#888]">
                             {data.classes[i]}
                           </div>
                           {row.map((count, j) => {
