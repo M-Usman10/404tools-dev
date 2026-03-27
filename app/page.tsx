@@ -200,7 +200,7 @@ interface Tool {
 
 function ToolCard({ tool }: { tool: Tool }) {
   const inner = (
-    <div className="flex h-48 flex-col rounded-xl border border-white/[0.08] bg-[#111111] p-5 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-white/20">
+    <div className="flex h-56 flex-col rounded-xl border border-white/[0.08] bg-[#111111] p-5 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-white/20">
       {tool.live ? (
         <div className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#22c55e]/10 px-2 py-0.5 text-xs text-[#22c55e]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
@@ -214,9 +214,9 @@ function ToolCard({ tool }: { tool: Tool }) {
       )}
 
       <h3 className="mb-2 text-base font-medium text-white">{tool.name}</h3>
-      <p className="line-clamp-3 text-sm leading-relaxed text-[#777]">{tool.description}</p>
+      <p className="flex-1 text-sm leading-relaxed text-[#777]">{tool.description}</p>
 
-      <div className="mt-auto flex items-center justify-between pt-4">
+      <div className="flex items-center justify-between pt-4">
         <div className="flex flex-wrap gap-1.5">
           {tool.tags.map((tag) => (
             <span key={tag} className="rounded-md bg-white/[0.05] px-2 py-0.5 text-[11px] text-[#555]">
