@@ -20,7 +20,8 @@ const tools = [
     name: "Regex Tester",
     description: "Test and debug regular expressions in real time. Match highlighting, capture groups, and flags — all visible at a glance.",
     tags: ["#regex", "#strings", "#testing"],
-    live: false,
+    href: "/regex",
+    live: true,
   },
   {
     name: "JSON Formatter",
@@ -97,7 +98,7 @@ export default function Home() {
             </a>
           </div>
           <p className="mt-8 text-sm text-[#555]">
-            2 tools live · More shipping rapidly
+            3 tools live · More shipping rapidly
           </p>
         </div>
       </section>
