@@ -4,13 +4,11 @@ import { useState, useMemo, useEffect } from "react";
 import { CronInput } from "@/components/cron-input";
 import { HumanReadable } from "@/components/human-readable";
 import { NextRuns } from "@/components/next-runs";
-import { WeeklyHeatmap } from "@/components/weekly-heatmap";
 import { QuickExamples } from "@/components/quick-examples";
 import { FieldReference } from "@/components/field-reference";
 import {
   parseCron,
   getNextRuns,
-  getWeeklyHeatmap,
   describeExpression,
 } from "@/lib/cron-parser";
 
@@ -23,15 +21,14 @@ export default function CronVision() {
     setMounted(true);
   }, []);
 
-  const { isValid, error, parsed, description, nextRuns, heatmap } =
+  const { isValid, error, parsed, description, nextRuns } =
     useMemo(() => {
       try {
         const parsed = parseCron(expression);
         const description = describeExpression(expression);
         // Only calculate time-dependent values after mount to avoid hydration issues
         const nextRuns = mounted ? getNextRuns(expression, 5) : [];
-        const heatmap = getWeeklyHeatmap(expression);
-        return { isValid: true, error: null, parsed, description, nextRuns, heatmap };
+        return { isValid: true, error: null, parsed, description, nextRuns };
       } catch (e) {
         return {
           isValid: false,
@@ -39,7 +36,6 @@ export default function CronVision() {
           parsed: null,
           description: null,
           nextRuns: [],
-          heatmap: Array.from({ length: 7 }, () => Array(24).fill(false)),
         };
       }
     }, [expression, mounted]);
@@ -76,31 +72,23 @@ export default function CronVision() {
         </section>
 
         {/* Human Readable */}
-        <section className="mb-8">
+        <section className="mb-6">
           <HumanReadable description={description} isValid={isValid} />
         </section>
 
-        {/* Two column layout for runs and heatmap */}
-        <div className="mb-8 grid gap-8 lg:grid-cols-2">
-          {/* Next 5 Run Times */}
-          <section>
-            <NextRuns runs={nextRuns} isValid={isValid} />
-          </section>
+        {/* Next 5 Run Times */}
+        <section className="mb-6">
+          <NextRuns runs={nextRuns} isValid={isValid} />
+        </section>
 
-          {/* Weekly Heatmap */}
-          <section>
-            <WeeklyHeatmap heatmap={heatmap} isValid={isValid} />
-          </section>
-        </div>
+        {/* Field Reference */}
+        <section className="mb-6">
+          <FieldReference />
+        </section>
 
         {/* Quick Examples */}
         <section className="mb-8">
           <QuickExamples onSelect={setExpression} current={expression} />
-        </section>
-
-        {/* Field Reference */}
-        <section>
-          <FieldReference />
         </section>
 
         {/* Footer */}
