@@ -1,35 +1,100 @@
-# cron-expression-visualizer
+# 404tools.dev
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+404tools.dev is a collection of fast, focused developer utilities built for everyday engineering tasks. The site is designed to be free, lightweight, and usable without accounts or setup.
 
-## Built with v0
+## Live Tools
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy..
+- **Cron Vision** - Visualize cron expressions, read them in plain English, and preview the next scheduled runs.
+- **Confusion Matrix Analyzer** - Paste ground truth and prediction labels to calculate accuracy, precision, recall, F1 score, macro and weighted averages, and class-level metrics.
+- **Regex Tester** - Test regular expressions in real time with match highlighting, capture groups, flags, replacement preview, and JavaScript/Python syntax support.
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_ZQv9Y5OCKbmYYPExiXcGBRD6BRln)
+More tools are listed on the homepage as upcoming additions.
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) App Router
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Radix UI](https://www.radix-ui.com/) primitives
+- [Lucide React](https://lucide.dev/) icons
+- [Vercel Analytics](https://vercel.com/analytics)
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+
+Run the development server:
+
+```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more, take a look at the following resources:
+Starts the local development server.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+```bash
+pnpm build
+```
 
-<a href="https://v0.app/chat/api/kiro/clone/M-Usman10/cron-expression-visualizer" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+Creates a production build.
+
+```bash
+pnpm start
+```
+
+Runs the production build locally.
+
+```bash
+pnpm lint
+```
+
+Runs ESLint for the project.
+
+## Project Structure
+
+```text
+app/
+  page.tsx                    Homepage and tool directory
+  cronvis/                    Cron Vision tool
+  confusion-matrix/           Confusion Matrix Analyzer
+  regex/                      Regex Tester
+  layout.tsx                  Root layout, metadata, analytics
+  robots.ts                   Robots configuration
+  sitemap.ts                  Sitemap configuration
+
+components/
+  cron-input.tsx              Cron expression input UI
+  field-reference.tsx         Cron field reference
+  human-readable.tsx          Cron description output
+  next-runs.tsx               Upcoming cron run list
+  quick-examples.tsx          Cron examples
+  ui/                         Shared UI components
+
+lib/
+  cron-parser.ts              Cron parsing and scheduling utilities
+  confusion-matrix.ts         Model evaluation calculations
+  regex-utils.ts              Regex helpers and syntax utilities
+  utils.ts                    Shared utility helpers
+
+public/
+  icon.svg                    Site icon
+  apple-icon.png              Apple touch icon
+```
+
+## Notes
+
+- The app uses a dark, minimal interface across all tools.
+- Tools run client-side where possible, keeping interactions quick and private.
+- The homepage links to live tools and marks planned tools as coming soon.
