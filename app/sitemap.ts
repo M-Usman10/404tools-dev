@@ -28,5 +28,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/ocr-api`,
+      lastModified: new Date('2026-08-06'),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/signup`,
+      lastModified: new Date('2026-08-06'),
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/login`,
+      lastModified: new Date('2026-08-06'),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
   ]
 }

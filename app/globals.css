@@ -50,6 +50,7 @@
 
 @theme inline {
   --font-sans: 'Geist', 'Geist Fallback';
+  --font-display: 'Instrument Sans', 'Instrument Sans Fallback';
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -101,4 +102,72 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* ============================================================
+   Product surfaces (auth + dashboard) — scoped to .app-shell
+   ============================================================ */
+
+/* Tailwind v4's @theme inline block above maps every --color-* token to
+   var(--<token>) and inlines that reference into the generated utilities, so
+   .bg-card compiles to background-color: var(--card) rather than to a frozen
+   colour. Redefining the raw tokens on a wrapper element therefore repaints
+   every descendant utility without touching the utility classes themselves.
+
+   The override lives on a class instead of :root because the marketing landing
+   and the standalone tools (/cronvis, /regex, /confusion-matrix) are shipped and
+   must keep their existing black-and-green look. Only the pages that opt in by
+   rendering inside .app-shell pick up the emerald product palette.
+
+   On mobile the dashboard sidebar is a Radix Sheet, which portals into
+   document.body and therefore lands outside the .app-shell wrapper the layout
+   puts on the page. The drawer would otherwise paint with the marketing site's
+   cool grey :root tokens while the page behind it stayed emerald, so the
+   portalled drawer is named here as a second carrier of the same palette. */
+.app-shell,
+[data-slot="sidebar"][data-mobile="true"] {
+  color-scheme: dark;
+  --background: #080c09;
+  --foreground: #ecf0ed;
+  --card: #0f1610;
+  --card-foreground: #ecf0ed;
+  --popover: #0f1610;
+  --popover-foreground: #ecf0ed;
+  --primary: #22c55e;
+  --primary-foreground: #ffffff;
+  --secondary: #1a2e1f;
+  --secondary-foreground: #ecf0ed;
+  --muted: #1a2e1f;
+  --muted-foreground: #8ca394;
+  --accent: #1a3a22;
+  --accent-foreground: #ecf0ed;
+  --destructive: #f87171;
+  --destructive-foreground: #ffffff;
+  --border: #253028;
+  --input: #253028;
+  --ring: #22c55e;
+  --sidebar: #0a110c;
+  --sidebar-foreground: #ecf0ed;
+  --sidebar-primary: #22c55e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a3a22;
+  --sidebar-accent-foreground: #ecf0ed;
+  --sidebar-border: #1f2a22;
+  --sidebar-ring: #22c55e;
+}
+
+/* Flat token cards read as dead rectangles on a near-black background, so every
+   card gets the same lift the reference product surfaces use: a faint top-left
+   sheen, a brighter hairline border and a deep drop shadow. The solid base is
+   var(--card) rather than a literal so the treatment follows the palette above.
+   This rule is unlayered, which is what lets it win over the .bg-card utility
+   that Tailwind emits inside @layer utilities. */
+.app-shell .bg-card {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    var(--card);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 40px -20px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }

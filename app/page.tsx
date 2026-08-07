@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Github, Twitter } from "lucide-react";
+import { ArrowRight, Github } from "lucide-react";
 
 const tools = [
   {
@@ -21,6 +21,13 @@ const tools = [
     description: "Test and debug regular expressions in real time. Match highlighting, capture groups, and flags — all visible at a glance.",
     tags: ["#regex", "#strings", "#testing"],
     href: "/regex",
+    live: true,
+  },
+  {
+    name: "OCR API",
+    description: "Turn PDFs, scans and photos into text over one HTTP endpoint. Prepaid pages, no subscription.",
+    tags: ["#ocr", "#pdf", "#api"],
+    href: "/ocr-api",
     live: true,
   },
   {
@@ -54,14 +61,31 @@ export default function Home() {
             <span className="text-[#22c55e] font-mono text-lg">[ ]</span>
             <span className="font-medium">404tools.dev</span>
           </Link>
-          <a
-            href="https://github.com/M-Usman10/404tools"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-md border border-white/[0.12] px-3 py-1.5 text-sm text-[#a1a1aa] transition-colors hover:border-white/20 hover:text-white"
-          >
-            Submit a tool
-          </a>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <a
+              href="https://github.com/M-Usman10/404tools"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-md border border-white/[0.12] px-3 py-1.5 text-sm text-[#a1a1aa] transition-colors hover:border-white/20 hover:text-white"
+            >
+              Submit a tool
+            </a>
+            {/* Dropped on the narrowest screens, where a fourth item overflows
+                the nav. Signup is the one of the pair worth the room, and the
+                login page is one tap away from it. */}
+            <Link
+              href="/login"
+              className="hidden text-sm text-[#a1a1aa] transition-colors hover:text-white sm:inline"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/signup"
+              className="rounded-md bg-[#22c55e] px-3 py-1.5 text-sm font-medium text-[#080808] transition-colors hover:bg-[#22c55e]/90"
+            >
+              Sign up
+            </Link>
+          </div>
         </div>
       </nav>
 
@@ -99,7 +123,7 @@ export default function Home() {
             </a>
           </div>
           <p className="mt-8 text-sm text-[#a1a1aa]">
-            3 tools live · More shipping rapidly
+            4 tools live · More shipping rapidly
           </p>
         </div>
       </section>
@@ -165,19 +189,24 @@ export default function Home() {
             <span className="text-[#22c55e] font-mono text-lg">[ ]</span>
             <span className="font-medium text-[#a1a1aa]">404tools.dev</span>
           </Link>
-          <p className="text-sm text-[#a1a1aa]">
-            Built for developers, by developers
-          </p>
-          <div className="flex items-center gap-4">
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Follow on Twitter"
-              className="text-[#a1a1aa] transition-colors hover:text-white"
-            >
-              <Twitter className="h-5 w-5" aria-hidden="true" />
+          {/* Paddle reviews the root domain and requires the terms, privacy and
+              refund pages to be reachable from it, so these links live in the
+              footer of every page rather than only on the legal pages. */}
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-[#a1a1aa]">
+            <Link href="/terms" className="transition-colors hover:text-white">
+              Terms of Service
+            </Link>
+            <Link href="/privacy" className="transition-colors hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link href="/refund-policy" className="transition-colors hover:text-white">
+              Refund Policy
+            </Link>
+            <a href="mailto:support@404tools.dev" className="transition-colors hover:text-white">
+              Contact
             </a>
+          </div>
+          <div className="flex items-center gap-4">
             <a
               href="https://github.com/M-Usman10/404tools"
               target="_blank"
