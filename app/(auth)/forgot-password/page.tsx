@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
       <div className="mt-8 pt-6 border-t border-border text-center">
         <p className="text-xs text-muted-foreground leading-relaxed">
           We&apos;ll email you a secure reset link. Check your spam folder if it doesn&apos;t arrive
-          within a minute. Your API keys and page balance are untouched — only your password
+          within a minute. Your API keys and page balance are untouched. Only your password
           changes.
         </p>
       </div>

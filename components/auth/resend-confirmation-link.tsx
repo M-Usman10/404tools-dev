@@ -99,7 +99,7 @@ export function ResendConfirmationLink({ email }: { email: string }) {
   return (
     <div className="text-xs">
       {resendStatus === "sent" && countdown > 0 && (
-        <p className="text-green-600 mb-1">Confirmation email sent — check your inbox.</p>
+        <p className="text-green-600 mb-1">Confirmation email sent. Check your inbox.</p>
       )}
       {resendStatus === "error" && (
         <p className="text-destructive mb-1">Failed to resend. Please try again.</p>

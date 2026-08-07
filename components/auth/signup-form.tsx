@@ -90,7 +90,7 @@ function ResendButton({ email }: { email: string }) {
   return (
     <div className="space-y-2">
       {status === "sent" && (
-        <p className="text-sm text-green-600">Confirmation email sent — check your inbox.</p>
+        <p className="text-sm text-green-600">Confirmation email sent. Check your inbox.</p>
       )}
       {status === "error" && (
         <p className="text-sm text-destructive">Failed to resend. Please try again.</p>

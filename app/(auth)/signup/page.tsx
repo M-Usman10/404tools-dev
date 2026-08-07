@@ -24,7 +24,7 @@ export default function SignupPage() {
         {/* A new account starts at zero pages, so the honest promise is a free key
             and prepaid credit — never a free trial or an included allowance. */}
         <p className="text-muted-foreground mt-2">
-          Free to create, and you get an API key straight away. Pages are prepaid — packs start at $
+          Free to create, and you get an API key straight away. Pages are prepaid. Packs start at $
           {cheapestPack.usd} for {cheapestPack.pages.toLocaleString()} pages, no subscription.
         </p>
       </div>
