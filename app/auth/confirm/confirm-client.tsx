@@ -1,48 +1,51 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/client"
+import { getSafeNextPath } from "@/lib/site-url"
 
-// Finishes an email confirmation whose session arrived in the URL fragment.
-// See the comment in page.tsx for why the server cannot do this itself.
-//
-// setSession writes the same cookies the server flow would, because the browser
-// client is the @supabase/ssr one, so by the time we navigate on, the session is
-// readable server-side and the dashboard renders authenticated on first paint.
-export function CallbackFallback({ destination }: { destination: string }) {
+// The browser client writes the same cookies the server flow would, so once
+// setSession resolves the session is readable server-side and the dashboard
+// renders authenticated on the very next navigation.
+export function ConfirmClient() {
   const router = useRouter()
+  const params = useSearchParams()
   const [failed, setFailed] = useState<string | null>(null)
 
   useEffect(() => {
-    const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : ""
-    const p = new URLSearchParams(hash)
+    const raw = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : ""
+    const frag = new URLSearchParams(raw)
 
-    // Supabase reports a dead link in the fragment too, so read the failure from
-    // the same place rather than assuming anything absent means success.
-    const errorCode = p.get("error_code")
-    const errorDesc = p.get("error_description")
+    const type = frag.get("type") ?? params.get("type")
+    const target =
+      type === "recovery" ? "/reset-password" : getSafeNextPath(params.get("next"))
+
+    // Supabase reports a dead link in the fragment too, so read failure from the
+    // same place rather than treating anything missing as success.
+    const errorCode = frag.get("error_code")
+    const errorDesc = frag.get("error_description")
     if (errorCode || errorDesc) {
-      if (errorCode === "otp_expired" || p.get("type") === "recovery") {
+      if (errorCode === "otp_expired" || type === "recovery") {
         router.replace(
           "/forgot-password?error=That+link+has+expired+or+was+already+used.+Request+a+new+one."
         )
         return
       }
-      setFailed(errorDesc?.replace(/\+/g, " ") ?? "That link is no longer valid.")
+      setFailed(decodeURIComponent(errorDesc ?? "").replace(/\+/g, " ") || "That link is no longer valid.")
       return
     }
 
-    const accessToken = p.get("access_token")
-    const refreshToken = p.get("refresh_token")
+    const accessToken = frag.get("access_token")
+    const refreshToken = frag.get("refresh_token")
 
     if (!accessToken || !refreshToken) {
-      setFailed("This confirmation link is missing its session. Please request a new one.")
+      setFailed(
+        "This link could not be completed in this browser. Open it in the browser you signed up from, or request a new confirmation email."
+      )
       return
     }
-
-    const target = p.get("type") === "recovery" ? "/reset-password" : destination
 
     createClient()
       .auth.setSession({ access_token: accessToken, refresh_token: refreshToken })
@@ -52,12 +55,12 @@ export function CallbackFallback({ destination }: { destination: string }) {
           return
         }
         // Drop the tokens out of the address bar before moving on, so they are not
-        // left sitting in history or copied out of the URL.
+        // left in history or copied out of the URL.
         window.history.replaceState(null, "", window.location.pathname)
         router.replace(target)
         router.refresh()
       })
-  }, [destination, router])
+  }, [params, router])
 
   return (
     <div className="app-shell flex min-h-screen items-center justify-center bg-background px-4">
@@ -68,7 +71,7 @@ export function CallbackFallback({ destination }: { destination: string }) {
             <h1 className="font-display mt-3 text-lg font-semibold text-foreground">
               That link did not work
             </h1>
-            <p className="mt-2 text-sm text-muted-foreground">{failed}</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{failed}</p>
             <a
               href="/login"
               className="mt-6 inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground"

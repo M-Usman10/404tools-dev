@@ -1,0 +1,88 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f5f4;padding:24px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <tr>
+    <td align="center" style="padding:0 16px;">
+      <table cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:520px;background-color:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e4e6e4;">
+
+        <tr>
+          <td style="background-color:#080808;padding:20px 28px;">
+            <span style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:18px;color:#22c55e;">[ ]</span>
+            <span style="font-size:16px;font-weight:600;color:#ffffff;padding-left:6px;">404tools.dev</span>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:36px 32px 0 32px;">
+            <h1 style="margin:0;font-size:20px;font-weight:600;color:#111111;">Confirm your email</h1>
+            <p style="margin:14px 0 0 0;font-size:15px;line-height:1.65;color:#4a4a4a;">
+              You are one click from your OCR API account. Confirm this address and we will take you
+              straight to your dashboard.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="padding:28px 32px 0 32px;">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td align="center" style="background-color:#22c55e;border-radius:8px;">
+                  <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=signup"
+                     style="display:inline-block;padding:13px 30px;font-size:15px;font-weight:600;color:#080808;text-decoration:none;">
+                    Confirm email
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:24px 32px 0 32px;">
+            <p style="margin:0;font-size:13px;line-height:1.6;color:#6b6b6b;">
+              If the button does not work, paste this into your browser:
+            </p>
+            <p style="margin:8px 0 0 0;font-size:12px;line-height:1.5;word-break:break-all;">
+              <a href="{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=signup" style="color:#15803d;">{{ .SiteURL }}/auth/callback?token_hash={{ .TokenHash }}&type=signup</a>
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:26px 32px 0 32px;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f7f9f7;border:1px solid #e3ebe4;border-radius:8px;">
+              <tr>
+                <td style="padding:16px 18px;">
+                  <p style="margin:0;font-size:13px;line-height:1.6;color:#4a4a4a;">
+                    <strong style="color:#111111;">What happens next.</strong> Create an API key, then post a
+                    PDF or an image to one endpoint and get the text back page by page. Pages are prepaid,
+                    never expire, and nothing renews on your card.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:24px 32px 32px 32px;">
+            <p style="margin:0;font-size:12px;line-height:1.6;color:#8a8a8a;">
+              This link expires in 24 hours and can be used once. If you did not create a 404tools.dev
+              account, ignore this email and nothing will happen.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="border-top:1px solid #ececec;padding:18px 32px;">
+            <p style="margin:0;font-size:12px;color:#8a8a8a;">
+              404tools.dev &nbsp;&middot;&nbsp;
+              <a href="{{ .SiteURL }}/ocr-api" style="color:#15803d;text-decoration:none;">OCR API docs</a> &nbsp;&middot;&nbsp;
+              <a href="{{ .SiteURL }}/terms" style="color:#8a8a8a;text-decoration:none;">Terms</a> &nbsp;&middot;&nbsp;
+              <a href="{{ .SiteURL }}/privacy" style="color:#8a8a8a;text-decoration:none;">Privacy</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
