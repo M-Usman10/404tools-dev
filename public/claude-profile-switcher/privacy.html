@@ -92,7 +92,7 @@
       <h2>The short version</h2>
       <ul>
         <li>Without sync, everything stays <strong>in your own browser</strong>.</li>
-        <li>If you choose <strong>Sign in to sync</strong>, your saved profiles are sent over HTTPS to the extension's own sync service (Microsoft Azure), stored <strong>encrypted</strong>, and used <strong>only</strong> to give the same profiles to your other browsers.</li>
+        <li>If you choose to sign in to sync (with Microsoft or Google), your saved profiles are sent over HTTPS to the extension's own sync service (Microsoft Azure), stored <strong>encrypted</strong>, and used <strong>only</strong> to give the same profiles to your other browsers.</li>
         <li>Nothing is sold, shared, analyzed or used for advertising.</li>
       </ul>
       <h2>What data is handled</h2>
@@ -100,13 +100,13 @@
         <li><strong>Session cookies</strong> for <code>claude.ai</code> and <code>anthropic.com</code>, and for <code>chatgpt.com</code> and <code>auth.openai.com</code> (including httpOnly authentication cookies). These are what keep you logged in.</li>
         <li>The <strong>names</strong> you give your profiles.</li>
         <li>The <strong>email address of each Claude or ChatGPT account</strong>, read from that site when you save or open a profile, so the extension can tell accounts apart, avoid duplicates and show when a login was signed out.</li>
-        <li>If you turn on sync: your <strong>Microsoft account email</strong> and an anonymous account identifier from Microsoft sign-in, used only to know which synced data is yours.</li>
+        <li>If you turn on sync: the <strong>email</strong> and an anonymous account identifier from your Microsoft or Google sign-in, used only to know which synced data is yours. If you sign in with both, they are linked to the same synced data.</li>
       </ul>
       <p>The extension does not read your chats, prompts, files or any page content.</p>
       <h2>Where the data is stored</h2>
       <ul>
         <li><strong>On your device:</strong> in the browser's extension storage (<code>chrome.storage</code>).</li>
-        <li><strong>In the cloud (only if you sign in to sync):</strong> in a private Microsoft Azure storage account (Central India region) operated by the developer. Each user's data is one file, encrypted with AES-256-GCM before it is written, and only reachable through the sync service after Microsoft sign-in.</li>
+        <li><strong>In the cloud (only if you sign in to sync):</strong> in a private Microsoft Azure storage account (Central India region) operated by the developer. Each user's data is one file, encrypted with AES-256-GCM before it is written, and only reachable through the sync service after Microsoft or Google sign-in.</li>
       </ul>
       <h2>How the data is used</h2>
       <p>Solely to:</p>
@@ -116,7 +116,7 @@
         <li>keep the same profiles in sync across your own signed-in browsers.</li>
       </ul>
       <h2>Who it is shared with</h2>
-      <p>No one. Data is processed by Microsoft Azure only as the hosting provider. Microsoft sign-in is handled by Microsoft under its own privacy policy.</p>
+      <p>No one. Data is processed by Microsoft Azure only as the hosting provider. Microsoft and Google sign-in are handled by Microsoft and Google under their own privacy policies.</p>
       <h2>Security note</h2>
       <p>Saved logins give access to the claude.ai accounts they belong to. Profiles on your device are not encrypted by the extension, so only use it on a device you trust. Anyone who can sign in to your sync account can download your synced profiles to their browser.</p>
       <h2>Removing your data</h2>
