@@ -86,91 +86,52 @@
     <main>
       <h1>Privacy Policy</h1>
       <p class="updated">
-        Profile Switcher for Claude · Last updated 23 June 2026
+        Profile Switcher for Claude · Last updated 11 November 2026
       </p>
-
-      <p>
-        Profile Switcher for Claude (“the extension”) is an independent,
-        unofficial browser extension that lets you save and switch between your
-        own claude.ai login sessions. This policy explains exactly what it does
-        with your data.
-      </p>
-
-      <div class="short">
-        <strong>The short version:</strong> The extension stores your saved
-        session data <strong>locally in your own browser</strong>. It has
-        <strong>no server</strong>, makes <strong>no network requests of its
-        own</strong>, and <strong>sends your data to no one</strong> — not to
-        us, not to any third party.
-      </div>
-
+      <p>Profile Switcher for Claude ("the extension") is an independent, unofficial browser extension that lets you save your own claude.ai and chatgpt.com logins, use a different one in each tab, and optionally sync them between your own browsers. This policy explains exactly what it does with your data.</p>
+      <h2>The short version</h2>
+      <ul>
+        <li>Without sync, everything stays <strong>in your own browser</strong>.</li>
+        <li>If you choose <strong>Sign in to sync</strong>, your saved profiles are sent over HTTPS to the extension's own sync service (Microsoft Azure), stored <strong>encrypted</strong>, and used <strong>only</strong> to give the same profiles to your other browsers.</li>
+        <li>Nothing is sold, shared, analyzed or used for advertising.</li>
+      </ul>
       <h2>What data is handled</h2>
-      <p>
-        To switch between accounts, the extension reads and restores the data
-        that keeps you logged in to claude.ai:
-      </p>
       <ul>
-        <li>
-          <strong>Session cookies</strong> for <code>claude.ai</code> and
-          <code>anthropic.com</code> (including httpOnly authentication
-          cookies).
-        </li>
-        <li>
-          A small amount of <strong>localStorage</strong> from your open
-          claude.ai tab that is part of the session.
-        </li>
+        <li><strong>Session cookies</strong> for <code>claude.ai</code> and <code>anthropic.com</code>, and for <code>chatgpt.com</code> and <code>auth.openai.com</code> (including httpOnly authentication cookies). These are what keep you logged in.</li>
+        <li>The <strong>names</strong> you give your profiles.</li>
+        <li>The <strong>email address of each Claude or ChatGPT account</strong>, read from that site when you save or open a profile, so the extension can tell accounts apart, avoid duplicates and show when a login was signed out.</li>
+        <li>If you turn on sync: your <strong>Microsoft account email</strong> and an anonymous account identifier from Microsoft sign-in, used only to know which synced data is yours.</li>
       </ul>
-      <p>
-        When you click “Save”, this data is captured and stored under the name
-        you choose.
-      </p>
-
+      <p>The extension does not read your chats, prompts, files or any page content.</p>
       <h2>Where the data is stored</h2>
-      <p>
-        All saved profiles are stored using the browser’s local extension
-        storage (<code>chrome.storage.local</code>) <strong>on your
-        device</strong>. The data:
-      </p>
       <ul>
-        <li>never leaves your browser,</li>
-        <li>is not transmitted to the developer or any third party,</li>
-        <li>is not analyzed, profiled, sold, or shared.</li>
+        <li><strong>On your device:</strong> in the browser's extension storage (<code>chrome.storage</code>).</li>
+        <li><strong>In the cloud (only if you sign in to sync):</strong> in a private Microsoft Azure storage account (Central India region) operated by the developer. Each user's data is one file, encrypted with AES-256-GCM before it is written, and only reachable through the sync service after Microsoft sign-in.</li>
       </ul>
-
       <h2>How the data is used</h2>
-      <p>
-        Solely to restore a session when you choose to switch to it. That is the
-        extension’s only purpose.
-      </p>
-
+      <p>Solely to:</p>
+      <ul>
+        <li>send each tab the login of the profile you opened in it,</li>
+        <li>keep saved logins current as claude.ai refreshes them,</li>
+        <li>keep the same profiles in sync across your own signed-in browsers.</li>
+      </ul>
+      <h2>Who it is shared with</h2>
+      <p>No one. Data is processed by Microsoft Azure only as the hosting provider. Microsoft sign-in is handled by Microsoft under its own privacy policy.</p>
       <h2>Security note</h2>
-      <p>
-        Saved session data is stored locally and is <strong>not
-        encrypted</strong>. Anyone with access to your browser profile or device
-        could potentially read it. Only use the extension on a trusted, private
-        device. Treat saved sessions like any other saved login.
-      </p>
-
+      <p>Saved logins give access to the claude.ai accounts they belong to. Profiles on your device are not encrypted by the extension, so only use it on a device you trust. Anyone who can sign in to your sync account can download your synced profiles to their browser.</p>
       <h2>Removing your data</h2>
-      <p>
-        Deleting a profile in the extension removes it from storage. Removing the
-        extension deletes all of its stored data.
-      </p>
-
+      <ul>
+        <li>Deleting a profile removes it from this device and, with sync on, from your other devices and the cloud copy.</li>
+        <li><strong>Sign out</strong> in the extension and choose to delete your synced data to remove everything stored in the cloud for your account.</li>
+        <li>Removing the extension deletes all data stored on that device.</li>
+        <li>You can also email the address below to have your cloud data deleted.</li>
+      </ul>
       <h2>Permissions</h2>
-      <p>
-        The extension requests only the permissions needed for its single
-        purpose: <code>cookies</code>, <code>storage</code>, <code>tabs</code>,
-        <code>scripting</code>, and host access limited to
-        <code>claude.ai</code> and <code>*.anthropic.com</code>.
-      </p>
-
-      <h2>Not affiliated with Anthropic</h2>
-      <p>
-        This extension is not made by, endorsed by, or affiliated with
-        Anthropic. “Claude” is a trademark of Anthropic.
-      </p>
-
+      <p><code>cookies</code>, <code>storage</code>, <code>tabs</code>, <code>scripting</code>, <code>declarativeNetRequestWithHostAccess</code>, <code>webRequest</code>, <code>webNavigation</code>, <code>identity</code>, <code>alarms</code>, and host access limited to <code>claude.ai</code>, <code>*.anthropic.com</code>, <code>chatgpt.com</code>, <code>auth.openai.com</code> and the extension's own sync service. See the store listing for what each one is used for.</p>
+      <h2>Not affiliated with Anthropic or OpenAI</h2>
+      <p>This extension is not made by, endorsed by, or affiliated with Anthropic or OpenAI. "Claude" is a trademark of Anthropic. "ChatGPT" is a trademark of OpenAI.</p>
+      <h2>Contact</h2>
+      <p>Questions or deletion requests: <a href="mailto:muhammadusman1.me@gmail.com">muhammadusman1.me@gmail.com</a></p>
       <footer>
         Questions about this policy:
         <a href="mailto:muhammadusman1.me@gmail.com"
